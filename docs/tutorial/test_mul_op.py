@@ -12,6 +12,15 @@ def test_numpy():
     print(c_np)
     print('gradients:', op.backward())
 
+def test_cupy():
+    print('==========')
+    print('CuPy')
+    a_np = cp.array([1, 2, 3])
+    b_np = cp.array([4, 5, 6])
+    op = mobula.op.MulElemWise[cp.ndarray]()
+    c_np = op(a_np, b_np)
+    print(c_np)
+    print('gradients:', op.backward())
 
 def test_mxnet_ndarray():
     print('==========')
@@ -68,7 +77,13 @@ def test_pytorch():
 if __name__ == '__main__':
     import numpy as np
     test_numpy()
-
+    
+    try:
+        import cupy as cp
+        test_cupy()
+    except ImportError:
+        pass
+    
     try:
         import mxnet as mx
         test_mxnet_ndarray()
